@@ -1,42 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'pages/home_page.dart';
+
 import 'providers/health_data_provider.dart';
 import 'providers/medication_provider.dart';
-import 'pages/health_log_page.dart';
-import 'pages/medication_page.dart';
-import 'pages/video_library_page.dart';
-import 'pages/report_page.dart';
+import 'screens/dashboard_screen.dart';
+import 'screens/health_form_screen.dart';
+import 'screens/login_screen.dart';
+import 'screens/register_screen.dart';
+import 'screens/welcome_screen.dart';
+import 'utils/app_theme.dart';
 
 void main() {
-  runApp(const InitialApp());
+  runApp(const WellnessApp());
 }
 
-class InitialApp extends StatelessWidget {
-  const InitialApp({super.key});
-  static const Color primaryColor = Color(0xFFF7931E);
+/// Root widget with providers and router.
+class WellnessApp extends StatelessWidget {
+  const WellnessApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final router = GoRouter(
+      routes: [
+        GoRoute(path: '/', builder: (c, s) => const DashboardScreen()),
+        GoRoute(path: '/add', builder: (c, s) => const HealthFormScreen()),
+        GoRoute(path: '/login', builder: (c, s) => const LoginScreen()),
+        GoRoute(path: '/register', builder: (c, s) => const RegisterScreen()),
+        GoRoute(path: '/welcome', builder: (c, s) => const WelcomeScreen()),
+      ],
+      initialLocation: '/welcome',
+    );
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => HealthDataProvider()),
         ChangeNotifierProvider(create: (_) => MedicationProvider()),
       ],
-      child: MaterialApp(
-        title: 'เติมใจเติมสุข',
-        theme: ThemeData(
-          fontFamily: 'Sarabun',
-          colorScheme: ColorScheme.fromSwatch().copyWith(primary: primaryColor),
-        ),
-        routes: {
-          '/': (context) => const HomePage(),
-          '/health-log': (context) => const HealthLogPage(),
-          '/medication': (context) => const MedicationPage(),
-          '/videos': (context) => VideoLibraryPage(),
-          '/report': (context) => const ReportPage(),
-        },
+      child: MaterialApp.router(
+        title: 'Wellness App',
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        routerConfig: router,
       ),
     );
   }

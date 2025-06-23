@@ -1,6 +1,6 @@
-# tstj_app
+# Wellness App
 
-Prototype health tracking Flutter application with mock data.
+Prototype Flutter application providing a foundation for future health tracking features.
 
 ## Getting Started
 
@@ -17,7 +17,8 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Features
 
-- Log basic health data such as blood pressure, blood sugar and weight.
-- Manage medication reminders (mock only).
-- Watch health related videos embedded from YouTube.
-- View a simple chart of logged data and export the list to PDF.
+- Welcome flow with login and registration screens (mock logic).
+- Dashboard with bottom navigation for health summary, history, reminders and settings.
+- Form to log blood pressure, blood sugar and weight.
+- Local storage using `SharedPreferences` for logged data and reminders.
+- Example API call fetching sample JSON data.
