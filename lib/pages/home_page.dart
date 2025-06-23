@@ -35,11 +35,9 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     _buildCircleButton(
-                      0,
-                      Icons.play_circle_fill,
-                      'ดูคลิปสุขภาพ',
-                    ),
-                    _buildCircleButton(1, Icons.edit_note, 'บันทึกสุขภาพ'),
+                        0, Icons.play_circle_fill, 'ดูคลิปสุขภาพ', '/videos'),
+                    _buildCircleButton(
+                        1, Icons.edit_note, 'บันทึกสุขภาพ', '/health-log'),
                     _buildCircleButton(
                       2,
                       Icons.medical_services,
@@ -114,7 +112,9 @@ class _HomePageState extends State<HomePage> {
                 ),
                 const SizedBox(height: 12),
                 ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/health-log');
+                  },
                   icon: const Icon(Icons.add),
                   label: const Text(
                     'เพิ่มข้อมูลสุขภาพ',
@@ -156,13 +156,14 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            _buildDrawerItem(Icons.home, 'หน้าแรก'),
-            _buildDrawerItem(Icons.edit_note, 'บันทึกสุขภาพ'),
-            _buildDrawerItem(Icons.notifications_active, 'แจ้งเตือนยา'),
-            _buildDrawerItem(Icons.play_circle_fill, 'ดูคลิปสุขภาพ'),
+            _buildDrawerItem(Icons.home, 'หน้าแรก', '/'),
+            _buildDrawerItem(Icons.edit_note, 'บันทึกสุขภาพ', '/health-log'),
+            _buildDrawerItem(
+                Icons.notifications_active, 'แจ้งเตือนยา', '/medication'),
+            _buildDrawerItem(Icons.play_circle_fill, 'ดูคลิปสุขภาพ', '/videos'),
             _buildDrawerItem(Icons.medical_services, 'ปรึกษาแพทย์'),
-            _buildDrawerItem(Icons.bar_chart, 'รายงานย้อนหลัง'),
-            _buildDrawerItem(Icons.picture_as_pdf, 'ดาวน์โหลด PDF'),
+            _buildDrawerItem(Icons.bar_chart, 'รายงานย้อนหลัง', '/report'),
+            _buildDrawerItem(Icons.picture_as_pdf, 'ดาวน์โหลด PDF', '/report'),
             _buildDrawerItem(Icons.settings, 'ตั้งค่าผู้ใช้งาน'),
           ],
         ),
@@ -170,7 +171,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildCircleButton(int index, IconData icon, String label) {
+  Widget _buildCircleButton(int index, IconData icon, String label,
+      [String? route]) {
     return Column(
       children: [
         GestureDetector(
@@ -191,7 +193,9 @@ class _HomePageState extends State<HomePage> {
                 customBorder: const CircleBorder(),
                 splashColor: Colors.orangeAccent.withOpacity(0.3),
                 onTap: () {
-                  // เพิ่ม logic เมื่อคลิกจริง
+                  if (route != null) {
+                    Navigator.pushNamed(context, route);
+                  }
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -223,13 +227,15 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget _buildDrawerItem(IconData icon, String title) {
+  Widget _buildDrawerItem(IconData icon, String title, [String? route]) {
     return ListTile(
       leading: Icon(icon, color: primaryColor),
       title: Text(title, style: const TextStyle(fontSize: 18)),
       onTap: () {
         Navigator.pop(context);
-        // TODO: เพิ่ม Navigator.push ไปยังหน้าที่ต้องการ
+        if (route != null) {
+          Navigator.pushNamed(context, route);
+        }
       },
     );
   }
